@@ -1,0 +1,60 @@
+{
+  "groups": [
+    {
+      "name": "aws.s3",
+      "type": "com.example.s3upload.config.S3Properties",
+      "sourceType": "com.example.s3upload.config.S3Properties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "aws.s3.access-key",
+      "type": "java.lang.String",
+      "description": "AWS访问密钥ID 环境变量：AWS_S3_ACCESS_KEY 配置文件：aws.s3.access-key",
+      "sourceType": "com.example.s3upload.config.S3Properties"
+    },
+    {
+      "name": "aws.s3.bucket-name",
+      "type": "java.lang.String",
+      "description": "S3存储桶名称 环境变量：AWS_S3_BUCKET_NAME 配置文件：aws.s3.bucket-name",
+      "sourceType": "com.example.s3upload.config.S3Properties"
+    },
+    {
+      "name": "aws.s3.connection-timeout",
+      "type": "java.lang.Integer",
+      "description": "连接超时时间（毫秒） 配置文件：aws.s3.connection-timeout 默认值：30000（30秒）",
+      "sourceType": "com.example.s3upload.config.S3Properties"
+    },
+    {
+      "name": "aws.s3.endpoint-url",
+      "type": "java.lang.String",
+      "description": "S3终端点URL（可选，用于本地测试或私有云） 环境变量：AWS_S3_ENDPOINT_URL 配置文件：aws.s3.endpoint-url",
+      "sourceType": "com.example.s3upload.config.S3Properties"
+    },
+    {
+      "name": "aws.s3.path-style-access",
+      "type": "java.lang.Boolean",
+      "description": "是否使用路径样式访问（可选，默认false） 环境变量：AWS_S3_PATH_STYLE_ACCESS 配置文件：aws.s3.path-style-access",
+      "sourceType": "com.example.s3upload.config.S3Properties"
+    },
+    {
+      "name": "aws.s3.read-timeout",
+      "type": "java.lang.Integer",
+      "description": "读取超时时间（毫秒） 配置文件：aws.s3.read-timeout 默认值：60000（60秒）",
+      "sourceType": "com.example.s3upload.config.S3Properties"
+    },
+    {
+      "name": "aws.s3.region",
+      "type": "java.lang.String",
+      "description": "AWS区域 环境变量：AWS_S3_REGION 配置文件：aws.s3.region 默认值：us-east-1",
+      "sourceType": "com.example.s3upload.config.S3Properties"
+    },
+    {
+      "name": "aws.s3.secret-key",
+      "type": "java.lang.String",
+      "description": "AWS秘密访问密钥 环境变量：AWS_S3_SECRET_KEY 配置文件：aws.s3.secret-key",
+      "sourceType": "com.example.s3upload.config.S3Properties"
+    }
+  ],
+  "hints": []
+}

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS S3文件上传演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        .section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="file"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="file"]:focus,
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .result.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .result.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        .api-list {
+            list-style: none;
+        }
+
+        .api-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            border-left: 4px solid #667eea;
+        }
+
+        .api-list code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AWS S3文件上传演示</h1>
+            <p>Spring Boot 3 + AWS SDK v2 集成示例</p>
+        </div>
+
+        <div class="content">
+            <!-- API 端点说明 -->
+            <div class="section">
+                <h3>📋 可用的API端点</h3>
+                <ul class="api-list">
+                    <li><code>GET /api/s3/test-connection</code> - 测试S3连接</li>
+                    <li><code>POST /api/s3/upload</code> - 上传文件到S3</li>
+                    <li><code>DELETE /api/s3/delete/{s3Key}</code> - 删除S3中的文件</li>
+                    <li><code>GET /api/s3/list</code> - 列出S3存储桶中的文件</li>
+                    <li><code>GET /api/s3/health</code> - 健康检查</li>
+                </ul>
+            </div>
+
+            <!-- 连接测试 -->
+            <div class="section">
+                <h3>🔗 测试S3连接</h3>
+                <p>首先测试应用程序是否能够连接到AWS S3服务。</p>
+                <button class="btn" onclick="testConnection()">测试连接</button>
+                <button class="btn btn-secondary" onclick="healthCheck()">健康检查</button>
+            </div>
+
+            <!-- 文件上传 -->
+            <div class="section">
+                <h3>📤 文件上传</h3>
+                <div class="form-group">
+                    <label for="fileInput">选择要上传的文件：</label>
+                    <input type="file" id="fileInput" accept="*/*">
+                </div>
+                <div class="form-group">
+                    <label for="pathPrefix">路径前缀（可选）：</label>
+                    <input type="text" id="pathPrefix" placeholder="例如：images/, documents/2024/">
+                </div>
+                <div class="form-group">
+                    <label for="contentType">内容类型（可选）：</label>
+                    <input type="text" id="contentType" placeholder="例如：image/jpeg, application/pdf">
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="overwrite">
+                        <label for="overwrite">覆盖已存在的文件</label>
+                    </div>
+                </div>
+                <button class="btn" onclick="uploadFile()">上传文件</button>
+            </div>
+
+            <!-- 文件管理 -->
+            <div class="section">
+                <h3>📁 文件管理</h3>
+                <div class="form-group">
+                    <label for="listPrefix">文件前缀过滤（可选）：</label>
+                    <input type="text" id="listPrefix" placeholder="例如：images/">
+                </div>
+                <div class="form-group">
+                    <label for="maxKeys">最大返回数量：</label>
+                    <select id="maxKeys">
+                        <option value="10">10</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="listFiles()">列出文件</button>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="deleteKey">要删除的文件键（S3 Key）：</label>
+                    <input type="text" id="deleteKey" placeholder="例如：images/uuid_example.jpg">
+                </div>
+                <button class="btn btn-danger" onclick="deleteFile()">删除文件</button>
+            </div>
+
+            <!-- 结果显示 -->
+            <div class="section">
+                <h3>📊 操作结果</h3>
+                <div id="result" class="result" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api/s3';
+
+        function showResult(data, type = 'info') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${type}`;
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = JSON.stringify(data, null, 2);
+        }
+
+        function showError(message) {
+            showResult({ error: message }, 'error');
+        }
+
+        async function testConnection() {
+            try {
+                const response = await fetch(`${API_BASE}/test-connection`);
+                const data = await response.json();
+                showResult(data, data.success ? 'success' : 'error');
+            } catch (error) {
+                showError('连接测试失败: ' + error.message);
+            }
+        }
+
+        async function healthCheck() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                showResult(data, 'info');
+            } catch (error) {
+                showError('健康检查失败: ' + error.message);
+            }
+        }
+
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const pathPrefix = document.getElementById('pathPrefix').value;
+            const contentType = document.getElementById('contentType').value;
+            const overwrite = document.getElementById('overwrite').checked;
+
+            if (!fileInput.files[0]) {
+                showError('请选择要上传的文件');
+                return;
+            }
+
+            const file = fileInput.files[0];
+
+            try {
+                // 将文件转换为Base64
+                const base64Content = await fileToBase64(file);
+                
+                const uploadData = {
+                    fileContent: base64Content,
+                    fileName: file.name,
+                    pathPrefix: pathPrefix || undefined,
+                    contentType: contentType || undefined,
+                    overwrite: overwrite
+                };
+
+                const response = await fetch(`${API_BASE}/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(uploadData)
+                });
+
+                const data = await response.json();
+                showResult(data, data.success ? 'success' : 'error');
+            } catch (error) {
+                showError('文件上传失败: ' + error.message);
+            }
+        }
+
+        async function listFiles() {
+            try {
+                const prefix = document.getElementById('listPrefix').value;
+                const maxKeys = document.getElementById('maxKeys').value;
+                
+                let url = `${API_BASE}/list?maxKeys=${maxKeys}`;
+                if (prefix) {
+                    url += `&prefix=${encodeURIComponent(prefix)}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+                showResult(data, data.success ? 'success' : 'error');
+            } catch (error) {
+                showError('获取文件列表失败: ' + error.message);
+            }
+        }
+
+        async function deleteFile() {
+            const deleteKey = document.getElementById('deleteKey').value;
+            
+            if (!deleteKey.trim()) {
+                showError('请输入要删除的文件键');
+                return;
+            }
+
+            if (!confirm(`确定要删除文件 "${deleteKey}" 吗？此操作不可撤销。`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/delete/${encodeURIComponent(deleteKey)}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+                showResult(data, data.success ? 'success' : 'error');
+            } catch (error) {
+                showError('删除文件失败: ' + error.message);
+            }
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    // 移除 "data:mime;base64," 前缀
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // 页面加载完成后自动执行健康检查
+        window.addEventListener('load', () => {
+            setTimeout(healthCheck, 500);
+        });
+    </script>
+</body>
+</html> 
