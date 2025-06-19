@@ -21,10 +21,17 @@ spring:
     default-property-inclusion: non_null
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: Asia/Shanghai
+  
+  # Spring Boot 多部分文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+      enabled: true
 
 # 服务器配置
 server:
-  port: 8080
+  port: 8087
   servlet:
     context-path: /
   
@@ -33,14 +40,6 @@ server:
   tomcat:
     max-http-form-post-size: 50MB
     max-swallow-size: 50MB
-
-# Spring Boot 多部分文件上传配置
-spring:
-  servlet:
-    multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
-      enabled: true
 
 # AWS S3 配置
 # 

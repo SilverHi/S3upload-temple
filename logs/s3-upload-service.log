@@ -1,0 +1,42 @@
+2025-06-19 16:45:26 [main] INFO  c.e.s3upload.S3UploadApplication - Starting S3UploadApplication using Java 21.0.7 with PID 96878 (/Users/silver/Documents/work/farben-work/S3Upload/target/classes started by silver in /Users/silver/Documents/work/farben-work/S3Upload)
+2025-06-19 16:45:26 [main] INFO  c.e.s3upload.S3UploadApplication - No active profile set, falling back to 1 default profile: "default"
+2025-06-19 16:45:26 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-06-19 16:45:26 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-19 16:45:26 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-06-19 16:45:26 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-19 16:45:26 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 362 ms
+2025-06-19 16:45:27 [main] INFO  c.example.s3upload.config.S3Config - 正在初始化AWS S3客户端配置...
+2025-06-19 16:45:27 [main] INFO  c.example.s3upload.config.S3Config - AWS S3客户端初始化成功!
+2025-06-19 16:45:27 [main] INFO  c.example.s3upload.config.S3Config - 配置详情: 区域=us-east-1, 存储桶=your-bucket-name, 路径样式访问=false
+2025-06-19 16:45:27 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-19 16:45:27 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-06-19 16:45:27 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-06-19 16:45:27 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-06-19 16:45:44 [main] INFO  c.e.s3upload.S3UploadApplication - Starting S3UploadApplication using Java 21.0.7 with PID 97073 (/Users/silver/Documents/work/farben-work/S3Upload/target/classes started by silver in /Users/silver/Documents/work/farben-work/S3Upload)
+2025-06-19 16:45:44 [main] INFO  c.e.s3upload.S3UploadApplication - No active profile set, falling back to 1 default profile: "default"
+2025-06-19 16:45:45 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8087 (http)
+2025-06-19 16:45:45 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-19 16:45:45 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-06-19 16:45:45 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-19 16:45:45 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 359 ms
+2025-06-19 16:45:45 [main] INFO  c.example.s3upload.config.S3Config - 正在初始化AWS S3客户端配置...
+2025-06-19 16:45:45 [main] INFO  c.example.s3upload.config.S3Config - AWS S3客户端初始化成功!
+2025-06-19 16:45:45 [main] INFO  c.example.s3upload.config.S3Config - 配置详情: 区域=us-east-1, 存储桶=your-bucket-name, 路径样式访问=false
+2025-06-19 16:45:45 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-19 16:45:45 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8087 (http) with context path ''
+2025-06-19 16:45:45 [main] INFO  c.e.s3upload.S3UploadApplication - Started S3UploadApplication in 0.967 seconds (process running for 1.329)
